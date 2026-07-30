@@ -1,50 +1,43 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.ts";
 
 @layer base {
   :root {
+    /* Main Backgrounds */
     --background: #F8FAFC;
-    --foreground: #111827;
+    --foreground: #0F172A;
     
+    /* Card Background */
     --surface: #FFFFFF;
     
-    --card: #FFFFFF;
-    --card-foreground: #111827;
- 
-    --popover: #FFFFFF;
-    --popover-foreground: #111827;
- 
-    --border: #E5E7EB;
-    --input: #E5E7EB;
-    --ring: #2563EB;
- 
-    --radius: 0.5rem;
-  }
- 
-  .dark {
-    --background: #0F172A;
-    --foreground: #F8FAFC;
+    /* Borders */
+    --border: #E2E8F0;
     
-    --surface: #1E293B;
-    
-    --card: #1E293B;
-    --card-foreground: #F8FAFC;
- 
-    --popover: #1E293B;
-    --popover-foreground: #F8FAFC;
- 
-    --border: #334155;
-    --input: #334155;
-    --ring: #3B82F6;
+    /* Brand Colors */
+    --primary: #2563EB;
+    --accent: #F97316;
   }
 }
- 
+
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--border);
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: inherit; /* Assuming you are using next/font */
   }
+}
+
+/* Custom Scrollbar for smaller areas */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 10px;
 }
