@@ -5,8 +5,11 @@ import { getAuth } from 'firebase-admin/auth';
 let privateKey = process.env.FIREBASE_PRIVATE_KEY || '';
 
 if (privateKey) {
-  privateKey = privateKey.replace(/^["'](.*)["']$/, '$1').trim();
-  privateKey = privateKey.replace(/\\n/g, '\n');
+  privateKey = privateKey
+    .replace(/^["'](.*)["']$/, '$1') // Remove surrounding quotes
+    .replace(/\\r\\n/g, '\n')       // Handle Windows line breaks if escaped
+    .replace(/\\n/g, '\n')          // Handle escaped literal \n
+    .trim();
 }
 
 const serviceAccount = {
@@ -17,10 +20,14 @@ const serviceAccount = {
 
 if (!getApps().length) {
   try {
-    initializeApp({
-      credential: cert(serviceAccount),
-    });
-    console.log('Firebase Admin Initialized Successfully.');
+    if (serviceAccount.projectId && serviceAccount.clientEmail && serviceAccount.privateKey) {
+      initializeApp({
+        credential: cert(serviceAccount),
+      });
+      console.log('Firebase Admin Initialized Successfully.');
+    } else {
+      console.warn('Firebase Admin credentials missing or incomplete.');
+    }
   } catch (error) {
     console.error('Firebase Admin Initialization Error:', error);
   }
